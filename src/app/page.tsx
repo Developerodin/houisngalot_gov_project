@@ -1,16 +1,20 @@
 import Link from 'next/link';
 import Button from '@/components/shared/Button';
-import MediaSections from '@/components/shared/MediaSections';
+import BannerSwiper from '@/components/shared/BannerSwiper';
+import LazyVideo from '@/components/shared/LazyVideo';
 
 export default function Home() {
   return (
-    <div className="container mx-auto px-4 py-6 md:py-8">
-      <MediaSections />
+    <div className="w-full">
+      {/* Banner Swiper - Full Width */}
+      <BannerSwiper />
+      
+      <div className="container mx-auto px-4 py-6 md:py-8">
 
       {/* Hero Section */}
-      <section className="mb-6 text-center">
+      <section className="mb-6 text-center fade-in-up">
         <div 
-          className="rounded-xl p-8 md:p-12 mb-6 relative overflow-hidden"
+          className="rounded-xl p-8 md:p-12 mb-6 relative overflow-hidden gov-hover"
           style={{ 
             background: 'linear-gradient(135deg, #0747A6 0%, #0F1F3F 100%)',
             color: '#FFFFFF',
@@ -59,20 +63,36 @@ export default function Home() {
           Scheme Details
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-          <div className="bg-white shadow-sm rounded-xl p-6 md:p-8 border border-gray-200">
-            <h3 className="text-xl md:text-2xl font-semibold mb-4" style={{ color: '#0747A6' }}>
-              About the Scheme
-            </h3>
-            <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: '#4B5563' }}>
-              The Affordable Housing Scheme 2024 is a government initiative to provide 
-              affordable housing plots to eligible citizens. This scheme aims to make 
-              housing accessible to Economically Weaker Sections (EWS), Lower Income Group (LIG), 
-              Middle Income Group (MIG), and Higher Income Group (HIG) families.
-            </p>
-            <p className="text-sm md:text-base leading-relaxed" style={{ color: '#4B5563' }}>
-              The entire process is conducted online through a transparent lottery system, 
-              ensuring fairness and eliminating manual paperwork.
-            </p>
+          {/* About the Scheme - Video and Text Side by Side */}
+          <div className="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
+            <div className="flex flex-col md:flex-row">
+              {/* Video Section - Takes original height */}
+              <div className="w-full md:w-1/2 flex items-center justify-center">
+                <LazyVideo
+                  src="/assest/B2ByPass.mp4"
+                  className="w-full h-auto"
+                  loop
+                  muted
+                  playsInline
+                />
+              </div>
+              {/* Text Section */}
+              <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
+                <h3 className="text-xl md:text-2xl font-semibold mb-4" style={{ color: '#0747A6' }}>
+                  About the Scheme
+                </h3>
+                <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: '#4B5563' }}>
+                  The Affordable Housing Scheme 2024 is a government initiative to provide 
+                  affordable housing plots to eligible citizens. This scheme aims to make 
+                  housing accessible to Economically Weaker Sections (EWS), Lower Income Group (LIG), 
+                  Middle Income Group (MIG), and Higher Income Group (HIG) families.
+                </p>
+                <p className="text-sm md:text-base leading-relaxed" style={{ color: '#4B5563' }}>
+                  The entire process is conducted online through a transparent lottery system, 
+                  ensuring fairness and eliminating manual paperwork.
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="bg-white shadow-sm rounded-xl p-6 md:p-8 border border-gray-200">
@@ -442,6 +462,7 @@ export default function Home() {
           </Link>
         </div>
       </section>
+      </div>
     </div>
   );
 }

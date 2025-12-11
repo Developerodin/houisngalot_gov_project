@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
 :root {
+  /* Rajasthan Government Colors */
+  --raj-green: #1D3E2E;
+  --raj-yellow: #fa930c;
+  --raj-primary: #9d0f6c;
+  --raj-secondary: #f2c21a;
+  --raj-bg: #efede6;
+  --raj-gray: #394640;
+  --raj-black-light: #1a3327;
+  
   /* Header */
-  --header-bg: #1E3A5F;
+  --header-bg: #0747A6;
   --header-text: #FFFFFF;
   --header-hover: #E0F3FF;
   
@@ -41,7 +50,7 @@
 body {
   color: var(--text-primary);
   background: var(--bg-primary);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
   line-height: 1.6;
 }
 
@@ -66,4 +75,64 @@ body {
   .link-navy:hover {
     color: var(--link-hover);
   }
+}
+
+/* Rajasthan Government Style Animations */
+@keyframes zoom-in-zoom-out {
+  0% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.05, 1.05);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(7, 71, 166, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(7, 71, 166, 0.6);
+  }
+}
+
+.zoom-in-zoom-out {
+  animation: zoom-in-zoom-out 3s ease-in-out infinite;
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Government portal hover effects */
+.gov-hover {
+  transition: all 0.3s ease;
+}
+
+.gov-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
