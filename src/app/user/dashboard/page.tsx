@@ -14,11 +14,11 @@ export default function UserDashboard() {
 
   useEffect(() => {
     const auth = userStorage.getAuth();
-    if (!auth) {
+    if (!auth || typeof auth !== 'object' || !('user' in auth)) {
       router.push('/auth/login');
       return;
     }
-    setUser(auth.user);
+    setUser((auth as { user: any }).user);
     
     const app = userStorage.getApplication();
     setApplication(app);

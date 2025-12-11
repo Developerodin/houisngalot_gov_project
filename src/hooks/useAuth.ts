@@ -11,8 +11,8 @@ export function useUserAuth() {
 
   useEffect(() => {
     const auth = userStorage.getAuth();
-    if (auth) {
-      setUser(auth.user);
+    if (auth && typeof auth === 'object' && 'user' in auth) {
+      setUser((auth as { user: any }).user);
     }
     setLoading(false);
   }, []);
@@ -33,8 +33,8 @@ export function useAdminAuth() {
 
   useEffect(() => {
     const auth = adminStorage.getAuth();
-    if (auth) {
-      setAdmin(auth.user);
+    if (auth && typeof auth === 'object' && 'user' in auth) {
+      setAdmin((auth as { user: any }).user);
     }
     setLoading(false);
   }, []);

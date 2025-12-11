@@ -18,11 +18,11 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     const auth = adminStorage.getAuth();
-    if (!auth) {
+    if (!auth || typeof auth !== 'object' || !('user' in auth)) {
       router.push('/admin/login');
       return;
     }
-    setAdmin(auth.user);
+    setAdmin((auth as { user: any }).user);
 
     const applications = adminStorage.getApplications();
     setStats({

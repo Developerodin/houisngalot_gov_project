@@ -75,7 +75,10 @@ export const userStorage = {
   setApplication: (application: any) => storage.set(STORAGE_KEYS.USER_APPLICATION, application),
   clearApplication: () => storage.remove(STORAGE_KEYS.USER_APPLICATION),
 
-  getDocuments: () => storage.get(STORAGE_KEYS.USER_DOCUMENTS) || [],
+  getDocuments: () => {
+    const data = storage.get<any[]>(STORAGE_KEYS.USER_DOCUMENTS);
+    return Array.isArray(data) ? data : [];
+  },
   setDocuments: (documents: any[]) => storage.set(STORAGE_KEYS.USER_DOCUMENTS, documents),
   addDocument: (document: any) => {
     const docs = userStorage.getDocuments();
@@ -83,7 +86,10 @@ export const userStorage = {
     userStorage.setDocuments(docs);
   },
 
-  getPayments: () => storage.get(STORAGE_KEYS.USER_PAYMENTS) || [],
+  getPayments: () => {
+    const data = storage.get<any[]>(STORAGE_KEYS.USER_PAYMENTS);
+    return Array.isArray(data) ? data : [];
+  },
   setPayments: (payments: any[]) => storage.set(STORAGE_KEYS.USER_PAYMENTS, payments),
   addPayment: (payment: any) => {
     const payments = userStorage.getPayments();
@@ -100,7 +106,10 @@ export const adminStorage = {
   setAuth: (auth: any) => storage.set(STORAGE_KEYS.ADMIN_AUTH, auth),
   clearAuth: () => storage.remove(STORAGE_KEYS.ADMIN_AUTH),
 
-  getApplications: () => storage.get(STORAGE_KEYS.ADMIN_APPLICATIONS) || [],
+  getApplications: () => {
+    const data = storage.get<any[]>(STORAGE_KEYS.ADMIN_APPLICATIONS);
+    return Array.isArray(data) ? data : [];
+  },
   setApplications: (applications: any[]) => storage.set(STORAGE_KEYS.ADMIN_APPLICATIONS, applications),
   addApplication: (application: any) => {
     const apps = adminStorage.getApplications();
@@ -116,12 +125,18 @@ export const adminStorage = {
     }
   },
 
-  getSchemes: () => storage.get(STORAGE_KEYS.ADMIN_SCHEMES) || [],
+  getSchemes: () => {
+    const data = storage.get<any[]>(STORAGE_KEYS.ADMIN_SCHEMES);
+    return Array.isArray(data) ? data : [];
+  },
   setSchemes: (schemes: any[]) => storage.set(STORAGE_KEYS.ADMIN_SCHEMES, schemes),
 
   getLottery: () => storage.get(STORAGE_KEYS.ADMIN_LOTTERY),
   setLottery: (lottery: any) => storage.set(STORAGE_KEYS.ADMIN_LOTTERY, lottery),
 
-  getAllotments: () => storage.get(STORAGE_KEYS.ADMIN_ALLOTMENTS) || [],
+  getAllotments: () => {
+    const data = storage.get<any[]>(STORAGE_KEYS.ADMIN_ALLOTMENTS);
+    return Array.isArray(data) ? data : [];
+  },
   setAllotments: (allotments: any[]) => storage.set(STORAGE_KEYS.ADMIN_ALLOTMENTS, allotments),
 };

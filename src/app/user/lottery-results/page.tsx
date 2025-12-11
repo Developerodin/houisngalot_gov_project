@@ -15,13 +15,14 @@ export default function LotteryResultsPage() {
 
   useEffect(() => {
     const lotteryData = adminStorage.getLottery();
-    if (lotteryData) {
+    if (lotteryData && typeof lotteryData === 'object' && 'winners' in lotteryData) {
       setLottery(lotteryData);
       
       // Get application details for winners
       const allApps = adminStorage.getApplications();
+      const lotteryWithWinners = lotteryData as { winners: string[] };
       const winnerApps = allApps.filter((app: any) => 
-        lotteryData.winners.includes(app.id)
+        lotteryWithWinners.winners.includes(app.id)
       );
       setApplications(winnerApps);
     }

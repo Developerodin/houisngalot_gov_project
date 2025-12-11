@@ -27,16 +27,17 @@ export default function ProfilePage() {
     }
 
     const savedProfile = userStorage.getProfile();
-    if (savedProfile) {
+    if (savedProfile && typeof savedProfile === 'object') {
+      const profile = savedProfile as { name?: string; email?: string; mobile?: string; address?: string; city?: string; state?: string; pincode?: string };
       setProfile(savedProfile);
       setFormData({
-        name: savedProfile.name || '',
-        email: savedProfile.email || '',
-        mobile: savedProfile.mobile || '',
-        address: savedProfile.address || '',
-        city: savedProfile.city || '',
-        state: savedProfile.state || '',
-        pincode: savedProfile.pincode || '',
+        name: profile.name || '',
+        email: profile.email || '',
+        mobile: profile.mobile || '',
+        address: profile.address || '',
+        city: profile.city || '',
+        state: profile.state || '',
+        pincode: profile.pincode || '',
       });
     }
   }, [router]);

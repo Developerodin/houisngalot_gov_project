@@ -19,7 +19,7 @@ export default function AllotmentPage() {
     }
 
     const app = userStorage.getApplication();
-    if (!app) {
+    if (!app || typeof app !== 'object' || !('id' in app)) {
       router.push('/user/dashboard');
       return;
     }
@@ -28,7 +28,8 @@ export default function AllotmentPage() {
 
     // Check if user has an allotment
     const allotments = adminStorage.getAllotments();
-    const userAllotment = allotments.find((a: any) => a.applicationId === app.id);
+    const appWithId = app as { id: string };
+    const userAllotment = allotments.find((a: any) => a.applicationId === appWithId.id);
     
     if (userAllotment) {
       setAllotment(userAllotment);

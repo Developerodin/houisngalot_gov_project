@@ -28,8 +28,13 @@ export default function DocumentsPage() {
     }
 
     // Generate mock documents
+    const appWithId = application && typeof application === 'object' && 'id' in application 
+      ? (application as { id: string })
+      : null;
+    if (!appWithId) return;
+    
     const mockDocs = DOCUMENT_TYPES.map((type) =>
-      generateMockDocument(application.id, type)
+      generateMockDocument(appWithId.id, type)
     );
     
     userStorage.setDocuments(mockDocs);

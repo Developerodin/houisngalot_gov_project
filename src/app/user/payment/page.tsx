@@ -22,9 +22,10 @@ export default function PaymentPage() {
 
   const handleBypass = () => {
     const app = userStorage.getApplication();
-    if (!app) return;
+    if (!app || typeof app !== 'object' || !('id' in app)) return;
 
-    const payment = generateMockPayment(app.id, 1000);
+    const appWithId = app as { id: string };
+    const payment = generateMockPayment(appWithId.id, 1000);
     userStorage.addPayment(payment);
     
     const updatedApp = { ...app, status: 'paid', paidAt: new Date().toISOString() };
@@ -38,9 +39,10 @@ export default function PaymentPage() {
     
     setTimeout(() => {
       const app = userStorage.getApplication();
-      if (!app) return;
+      if (!app || typeof app !== 'object' || !('id' in app)) return;
 
-      const payment = generateMockPayment(app.id, 1000);
+      const appWithId = app as { id: string };
+      const payment = generateMockPayment(appWithId.id, 1000);
       userStorage.addPayment(payment);
       
       const updatedApp = { ...app, status: 'paid', paidAt: new Date().toISOString() };

@@ -23,15 +23,16 @@ export default function AllotmentsPage() {
 
   const handleCreateAllotment = () => {
     const lottery = adminStorage.getLottery();
-    if (!lottery || lottery.winners.length === 0) {
+    if (!lottery || typeof lottery !== 'object' || !('winners' in lottery) || !Array.isArray(lottery.winners) || lottery.winners.length === 0) {
       alert('No lottery winners found. Please run lottery first.');
       return;
     }
 
-    const newAllotments = lottery.winners.map((appId: string, index: number) => ({
+    const lotteryData = lottery as { id: string; winners: string[] };
+    const newAllotments = lotteryData.winners.map((appId: string, index: number) => ({
       id: `allot_${Date.now()}_${index}`,
       applicationId: appId,
-      lotteryId: lottery.id,
+      lotteryId: lotteryData.id,
       plotNumber: `PLOT-${String(index + 1).padStart(4, '0')}`,
       allotmentDate: new Date().toISOString(),
       status: 'allotted',

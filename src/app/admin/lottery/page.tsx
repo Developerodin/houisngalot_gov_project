@@ -20,8 +20,8 @@ export default function LotteryPage() {
 
     const lotteryData = adminStorage.getLottery();
     setLottery(lotteryData);
-    if (lotteryData) {
-      setWinners(lotteryData.winners || []);
+    if (lotteryData && typeof lotteryData === 'object' && 'winners' in lotteryData) {
+      setWinners(Array.isArray(lotteryData.winners) ? lotteryData.winners : []);
     }
   }, [router]);
 

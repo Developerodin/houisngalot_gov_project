@@ -19,7 +19,7 @@ export default function RefundStatusPage() {
     }
 
     const app = userStorage.getApplication();
-    if (!app) {
+    if (!app || typeof app !== 'object' || !('status' in app) || !('id' in app)) {
       router.push('/user/dashboard');
       return;
     }
@@ -27,9 +27,10 @@ export default function RefundStatusPage() {
     setApplication(app);
 
     // Check if application was rejected and refund is due
-    if (app.status === 'rejected') {
+    const appWithStatus = app as { status: string; id: string };
+    if (appWithStatus.status === 'rejected') {
       const payments = userStorage.getPayments();
-      const payment = payments.find((p: any) => p.applicationId === app.id);
+      const payment = payments.find((p: any) => p.applicationId === appWithStatus.id);
       
       if (payment && payment.status === 'completed') {
         setRefund({
@@ -48,7 +49,7 @@ export default function RefundStatusPage() {
     return <div className="container mx-auto px-4 py-12 text-center">Loading...</div>;
   }
 
-  if (application.status !== 'rejected') {
+  if (!application || typeof application !== 'object' || !('status' in application) || (application as { status: string }).status !== 'rejected') {
     return (
       <div className="container mx-auto px-4 py-12 text-center">
         <h1 className="text-3xl font-bold mb-4" style={{ color: '#0F1F3F' }}>

@@ -23,12 +23,13 @@ export default function ApplicationPage() {
 
   const handleBypass = () => {
     const auth = userStorage.getAuth();
-    if (!auth) {
+    if (!auth || typeof auth !== 'object' || !('user' in auth)) {
       router.push('/auth/login');
       return;
     }
 
-    const mockApp = generateMockApplication(auth.user.id, 'scheme_1');
+    const authWithUser = auth as { user: { id: string } };
+    const mockApp = generateMockApplication(authWithUser.user.id, 'scheme_1');
     const finalApp = {
       ...mockApp,
       status: 'submitted',
