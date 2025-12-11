@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Sindur Vihar - SINDUR VIhar goverment of rajsatahn",
@@ -36,9 +37,11 @@ export default function RootLayout({
         <link rel="mask-icon" href="https://rajasthan.gov.in/assets/images/favicon/safari-pinned-tab.svg" />
       </head>
       <body className="min-h-screen flex flex-col" style={{ backgroundColor: '#FFFFFF', fontFamily: "'Poppins', Arial, Helvetica, sans-serif" }}>
-        <Header />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <LanguageProvider>
+          <Header />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

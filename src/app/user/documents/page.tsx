@@ -5,17 +5,19 @@ import { useRouter } from 'next/navigation';
 import Button from '@/components/shared/Button';
 import { userStorage } from '@/utils/localStorage';
 import { generateMockDocument } from '@/utils/mockData';
-
-const DOCUMENT_TYPES = [
-  'Aadhaar Card',
-  'PAN Card',
-  'Income Certificate',
-  'Address Proof',
-  'Bank Statement',
-  'Photo',
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function DocumentsPage() {
+  const { t } = useLanguage();
+  
+  const DOCUMENT_TYPES = [
+    'Aadhaar Card',
+    'PAN Card',
+    'Income Certificate',
+    'Address Proof',
+    'Bank Statement',
+    'Photo',
+  ];
   const router = useRouter();
   const [documents, setDocuments] = useState<any[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -72,12 +74,12 @@ export default function DocumentsPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl">
       <h1 className="text-3xl font-bold mb-6" style={{ color: '#0F1F3F' }}>
-        Upload Documents
+        {t('documents.title')}
       </h1>
 
       <div className="bg-white shadow-lg rounded-lg p-8">
         <p className="mb-6" style={{ color: '#4B5563' }}>
-          Please upload the following documents. All documents are required.
+          {t('documents.description')}
         </p>
 
         <div className="space-y-4 mb-6">
@@ -90,9 +92,9 @@ export default function DocumentsPage() {
               >
                 <span style={{ color: '#4B5563' }}>{type}</span>
                 {doc ? (
-                  <span className="text-green-600 text-sm">✓ Uploaded</span>
+                  <span className="text-green-600 text-sm">✓ {t('documents.uploaded')}</span>
                 ) : (
-                  <span className="text-gray-400 text-sm">Pending</span>
+                  <span className="text-gray-400 text-sm">{t('common.loading')}</span>
                 )}
               </div>
             );
@@ -114,7 +116,7 @@ export default function DocumentsPage() {
           >
             <div className="text-4xl mb-2">📄</div>
             <p className="text-lg font-medium mb-2" style={{ color: '#0F1F3F' }}>
-              Click to upload or drag and drop
+              {t('documents.upload')}
             </p>
             <p className="text-sm" style={{ color: '#4B5563' }}>
               PDF, JPG, PNG (Max 5MB per file)
@@ -124,7 +126,7 @@ export default function DocumentsPage() {
 
         {uploading && (
           <div className="text-center mb-4">
-            <p style={{ color: '#4B5563' }}>Uploading...</p>
+            <p style={{ color: '#4B5563' }}>{t('common.loading')}</p>
           </div>
         )}
 
@@ -134,7 +136,7 @@ export default function DocumentsPage() {
             variant="outline"
             fullWidth
           >
-            Back
+            {t('common.back')}
           </Button>
           <Button
             onClick={handleSubmit}
@@ -143,7 +145,7 @@ export default function DocumentsPage() {
             onBypass={handleBypass}
             disabled={existingDocs.length === 0 && !uploading}
           >
-            Continue to Payment
+            {t('documents.continue')}
           </Button>
         </div>
       </div>

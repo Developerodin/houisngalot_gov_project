@@ -1,8 +1,10 @@
 'use client';
 
 import Image from 'next/image';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="mt-12 border-t relative overflow-hidden">
       {/* Background Image */}
@@ -24,56 +26,55 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
           <div>
             <h3 className="text-lg font-semibold mb-4" style={{ color: '#FFFFFF' }}>
-              Quick Links
+              {t('footer.quickLinks')}
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <a href="/" className="hover:underline" style={{ color: '#E5E7EB' }}>
-                  Home
+                  {t('footer.home')}
                 </a>
               </li>
               <li>
                 <a href="/user/eligibility" className="hover:underline" style={{ color: '#E5E7EB' }}>
-                  Check Eligibility
+                  {t('footer.eligibility')}
                 </a>
               </li>
               <li>
                 <a href="/user/application" className="hover:underline" style={{ color: '#E5E7EB' }}>
-                  Apply Now
+                  {t('footer.apply')}
                 </a>
               </li>
               <li>
                 <a href="/user/lottery-results" className="hover:underline" style={{ color: '#E5E7EB' }}>
-                  Lottery Results
+                  {t('footer.lottery')}
                 </a>
               </li>
             </ul>
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-4" style={{ color: '#FFFFFF' }}>
-              Contact
+              {t('footer.contact')}
             </h3>
             <ul className="space-y-2 text-sm" style={{ color: '#E5E7EB' }}>
-              <li>Helpline: 1800-XXX-XXXX</li>
-              <li>Email: support@housingalot.gov.in</li>
-              <li>Mon-Sat, 9 AM - 6 PM</li>
+              <li>{t('footer.helpline')} 1800-XXX-XXXX</li>
+              <li>{t('footer.email')} support@housingalot.gov.in</li>
+              <li>{t('footer.hours')}</li>
             </ul>
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-4" style={{ color: '#FFFFFF' }}>
-              Government Portal
+              {t('footer.portal')}
             </h3>
             <p className="text-sm" style={{ color: '#E5E7EB' }}>
-              Official website of the Housing Development Authority. 
-              Transparent, fair, and secure housing allocation system.
+              {t('footer.portal.description')}
             </p>
           </div>
         </div>
         <div className="border-t pt-6 text-center" style={{ borderTopColor: 'rgba(255, 255, 255, 0.3)' }}>
           <p className="text-sm" style={{ color: '#E5E7EB' }}>
-            © {new Date().getFullYear()} Housingalot Project. All rights reserved. | 
-            <a href="#" className="hover:underline ml-2" style={{ color: '#E5E7EB' }}>Privacy Policy</a> | 
-            <a href="#" className="hover:underline ml-2" style={{ color: '#E5E7EB' }}>Terms of Service</a>
+            © {new Date().getFullYear()} {t('footer.copyright')} | 
+            <a href="#" className="hover:underline ml-2" style={{ color: '#E5E7EB' }}>{t('footer.privacy')}</a> | 
+            <a href="#" className="hover:underline ml-2" style={{ color: '#E5E7EB' }}>{t('footer.terms')}</a>
           </p>
         </div>
       </div>

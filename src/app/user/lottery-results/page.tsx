@@ -6,8 +6,10 @@ import Link from 'next/link';
 import Input from '@/components/shared/Input';
 import Button from '@/components/shared/Button';
 import { adminStorage } from '@/utils/localStorage';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function LotteryResultsPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [lottery, setLottery] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -48,13 +50,13 @@ export default function LotteryResultsPage() {
     return (
       <div className="container mx-auto px-4 py-12 text-center">
         <h1 className="text-3xl font-bold mb-4" style={{ color: '#0F1F3F' }}>
-          Lottery Results
+          {t('lottery.title')}
         </h1>
         <p style={{ color: '#4B5563' }} className="mb-6">
-          Lottery has not been conducted yet. Results will be published here once the lottery is completed.
+          {t('lottery.title')} {t('common.loading')}
         </p>
         <Link href="/user/dashboard">
-          <Button variant="outline">Back to Dashboard</Button>
+          <Button variant="outline">{t('status.backToDashboard')}</Button>
         </Link>
       </div>
     );
@@ -64,33 +66,33 @@ export default function LotteryResultsPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold" style={{ color: '#0F1F3F' }}>
-          Lottery Results
+          {t('lottery.title')}
         </h1>
         <Link href="/user/dashboard">
-          <Button variant="outline">Back to Dashboard</Button>
+          <Button variant="outline">{t('status.backToDashboard')}</Button>
         </Link>
       </div>
 
       <div className="bg-white shadow-lg rounded-lg p-8 mb-6">
         <h2 className="text-2xl font-semibold mb-4" style={{ color: '#0F1F3F' }}>
-          Lottery Information
+          {t('lottery.information')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
-            <p className="text-sm" style={{ color: '#4B5563' }}>Lottery ID</p>
+            <p className="text-sm" style={{ color: '#4B5563' }}>{t('lottery.id')}</p>
             <p className="font-semibold">{lottery.id}</p>
           </div>
           <div>
-            <p className="text-sm" style={{ color: '#4B5563' }}>Conducted On</p>
+            <p className="text-sm" style={{ color: '#4B5563' }}>{t('lottery.conductedOn')}</p>
             <p className="font-semibold">{new Date(lottery.conductedAt).toLocaleString()}</p>
           </div>
           <div className="md:col-span-2">
-            <p className="text-sm mb-2" style={{ color: '#4B5563' }}>Seed Hash (for verification)</p>
+            <p className="text-sm mb-2" style={{ color: '#4B5563' }}>{t('lottery.seedHash')}</p>
             <p className="font-mono text-sm bg-gray-100 p-2 rounded break-all">
               {lottery.seedHash}
             </p>
             <p className="text-xs mt-1" style={{ color: '#4B5563' }}>
-              This hash can be used to verify the integrity of the lottery results
+              {t('lottery.seedHashDesc')}
             </p>
           </div>
         </div>
@@ -99,11 +101,11 @@ export default function LotteryResultsPage() {
       <div className="bg-white shadow-lg rounded-lg p-8 mb-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold" style={{ color: '#0F1F3F' }}>
-            Winners List ({filteredWinners.length})
+            {t('lottery.winnersList')} ({filteredWinners.length})
           </h2>
           <div className="w-64">
             <Input
-              placeholder="Search by Application ID or Name..."
+              placeholder={t('lottery.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -115,19 +117,19 @@ export default function LotteryResultsPage() {
             <thead style={{ backgroundColor: '#F9FAFB' }}>
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase" style={{ color: '#4B5563' }}>
-                  Rank
+                  {t('lottery.rank')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase" style={{ color: '#4B5563' }}>
-                  Application ID
+                  {t('lottery.applicationId')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase" style={{ color: '#4B5563' }}>
-                  Name (Masked)
+                  {t('lottery.nameMasked')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase" style={{ color: '#4B5563' }}>
-                  Category
+                  {t('lottery.category')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase" style={{ color: '#4B5563' }}>
-                  Status
+                  {t('lottery.status')}
                 </th>
               </tr>
             </thead>
@@ -135,7 +137,7 @@ export default function LotteryResultsPage() {
               {filteredWinners.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-4 py-8 text-center" style={{ color: '#4B5563' }}>
-                    No winners found
+                    {t('lottery.noWinners')}
                   </td>
                 </tr>
               ) : (
@@ -157,7 +159,7 @@ export default function LotteryResultsPage() {
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
                       <span className="inline-block px-3 py-1 rounded-full text-white text-xs bg-green-500">
-                        SELECTED
+                        {t('status.selected')}
                       </span>
                     </td>
                   </tr>
@@ -170,12 +172,10 @@ export default function LotteryResultsPage() {
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
         <h3 className="font-semibold mb-2" style={{ color: '#0F1F3F' }}>
-          Note on Privacy
+          {t('lottery.privacyNote')}
         </h3>
         <p className="text-sm" style={{ color: '#4B5563' }}>
-          Personal Identifiable Information (PII) has been masked in the public results 
-          to protect privacy. Selected applicants will be notified individually and can 
-          view their full details in their dashboard.
+          {t('lottery.privacyDesc')}
         </p>
       </div>
     </div>

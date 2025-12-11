@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import Input from '@/components/shared/Input';
 import Button from '@/components/shared/Button';
 import { userStorage } from '@/utils/localStorage';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function EligibilityPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [age, setAge] = useState('');
@@ -39,7 +41,7 @@ export default function EligibilityPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
       <h1 className="text-3xl font-bold mb-6" style={{ color: '#0F1F3F' }}>
-        Eligibility Checker
+        {t('eligibility.checker.title')}
       </h1>
 
       <div className="bg-white shadow-lg rounded-lg p-8">
@@ -47,7 +49,7 @@ export default function EligibilityPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <h2 className="text-xl font-semibold mb-4" style={{ color: '#0F1F3F' }}>
-                Step {step} of 3
+                {t('eligibility.checker.step')} {step} {t('eligibility.checker.of')} 3
               </h2>
               <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
                 <div
@@ -60,15 +62,15 @@ export default function EligibilityPage() {
             {step === 1 && (
               <div className="space-y-4">
                 <Input
-                  label="Age"
+                  label={t('eligibility.checker.age')}
                   type="number"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
-                  placeholder="25"
+                  placeholder={t('eligibility.checker.agePlaceholder')}
                   required
                 />
                 <Button type="button" onClick={() => setStep(2)} fullWidth bypass onBypass={handleBypass}>
-                  Next
+                  {t('eligibility.checker.next')}
                 </Button>
               </div>
             )}
@@ -76,19 +78,19 @@ export default function EligibilityPage() {
             {step === 2 && (
               <div className="space-y-4">
                 <Input
-                  label="Annual Income (₹)"
+                  label={t('eligibility.checker.annualIncome')}
                   type="number"
                   value={income}
                   onChange={(e) => setIncome(e.target.value)}
-                  placeholder="300000"
+                  placeholder={t('eligibility.checker.incomePlaceholder')}
                   required
                 />
                 <div className="flex gap-4">
                   <Button type="button" onClick={() => setStep(1)} variant="outline" fullWidth>
-                  Back
+                  {t('eligibility.checker.back')}
                 </Button>
                 <Button type="button" onClick={() => setStep(3)} fullWidth bypass onBypass={handleBypass}>
-                  Next
+                  {t('eligibility.checker.next')}
                 </Button>
                 </div>
               </div>
@@ -98,7 +100,7 @@ export default function EligibilityPage() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium mb-2" style={{ color: '#0F1F3F' }}>
-                    Do you own any property?
+                    {t('eligibility.checker.ownProperty')}
                   </label>
                   <select
                     value={hasProperty}
@@ -106,17 +108,17 @@ export default function EligibilityPage() {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   >
-                    <option value="">Select</option>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option value="">{t('eligibility.checker.select')}</option>
+                    <option value="yes">{t('eligibility.checker.yes')}</option>
+                    <option value="no">{t('eligibility.checker.no')}</option>
                   </select>
                 </div>
                 <div className="flex gap-4">
                   <Button type="button" onClick={() => setStep(2)} variant="outline" fullWidth>
-                    Back
+                    {t('eligibility.checker.back')}
                   </Button>
                   <Button type="submit" fullWidth bypass onBypass={handleBypass}>
-                    Check Eligibility
+                    {t('eligibility.checker.check')}
                   </Button>
                 </div>
               </div>
@@ -125,18 +127,18 @@ export default function EligibilityPage() {
         ) : eligible ? (
           <div className="text-center py-8">
             <div className="text-6xl mb-4">✅</div>
-            <h2 className="text-2xl font-bold mb-2 text-green-600">You are Eligible!</h2>
-            <p style={{ color: '#4B5563' }}>Redirecting to application form...</p>
+            <h2 className="text-2xl font-bold mb-2 text-green-600">{t('eligibility.checker.eligible')}</h2>
+            <p style={{ color: '#4B5563' }}>{t('eligibility.checker.redirecting')}</p>
           </div>
         ) : (
           <div className="text-center py-8">
             <div className="text-6xl mb-4">❌</div>
-            <h2 className="text-2xl font-bold mb-2 text-red-600">Not Eligible</h2>
+            <h2 className="text-2xl font-bold mb-2 text-red-600">{t('eligibility.checker.notEligible')}</h2>
             <p style={{ color: '#4B5563' }} className="mb-4">
-              Based on your inputs, you may not be eligible for this scheme.
+              {t('eligibility.checker.notEligibleDesc')}
             </p>
             <Button onClick={() => { setEligible(null); setStep(1); }} variant="outline">
-              Try Again
+              {t('eligibility.checker.tryAgain')}
             </Button>
           </div>
         )}

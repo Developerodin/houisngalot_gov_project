@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import Input from '@/components/shared/Input';
 import Button from '@/components/shared/Button';
 import { userStorage } from '@/utils/localStorage';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function ProfilePage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [profile, setProfile] = useState<any>(null);
   const [formData, setFormData] = useState({
@@ -46,60 +48,60 @@ export default function ProfilePage() {
     e.preventDefault();
     const updatedProfile = { ...profile, ...formData };
     userStorage.setProfile(updatedProfile);
-    alert('Profile updated successfully!');
+    alert(t('profile.updateSuccess'));
   };
 
   if (!profile) {
-    return <div className="container mx-auto px-4 py-12 text-center">Loading...</div>;
+    return <div className="container mx-auto px-4 py-12 text-center">{t('common.loading')}</div>;
   }
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
       <h1 className="text-3xl font-bold mb-6" style={{ color: '#0F1F3F' }}>
-        Profile Settings
+        {t('profile.title')}
       </h1>
 
       <div className="bg-white shadow-lg rounded-lg p-8">
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
-            label="Full Name"
+            label={t('form.name')}
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
           />
           <Input
-            label="Email"
+            label={t('profile.email')}
             type="email"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             required
           />
           <Input
-            label="Mobile Number"
+            label={t('profile.mobile')}
             type="tel"
             value={formData.mobile}
             onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
             required
           />
           <Input
-            label="Address"
+            label={t('form.address')}
             value={formData.address}
             onChange={(e) => setFormData({ ...formData, address: e.target.value })}
           />
           <div className="grid grid-cols-2 gap-4">
             <Input
-              label="City"
+              label={t('form.city')}
               value={formData.city}
               onChange={(e) => setFormData({ ...formData, city: e.target.value })}
             />
             <Input
-              label="State"
+              label={t('form.state')}
               value={formData.state}
               onChange={(e) => setFormData({ ...formData, state: e.target.value })}
             />
           </div>
           <Input
-            label="Pincode"
+            label={t('form.pincode')}
             value={formData.pincode}
             onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
           />
@@ -110,10 +112,10 @@ export default function ProfilePage() {
               variant="outline"
               fullWidth
             >
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button type="submit" fullWidth>
-              Save Changes
+              {t('profile.save')}
             </Button>
           </div>
         </form>

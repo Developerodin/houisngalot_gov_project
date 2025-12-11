@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Button from '@/components/shared/Button';
 import { userStorage } from '@/utils/localStorage';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function RefundStatusPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [application, setApplication] = useState<any>(null);
   const [refund, setRefund] = useState<any>(null);
@@ -46,25 +48,24 @@ export default function RefundStatusPage() {
   }, [router]);
 
   if (!application) {
-    return <div className="container mx-auto px-4 py-12 text-center">Loading...</div>;
+    return <div className="container mx-auto px-4 py-12 text-center">{t('common.loading')}</div>;
   }
 
   if (!application || typeof application !== 'object' || !('status' in application) || (application as { status: string }).status !== 'rejected') {
     return (
       <div className="container mx-auto px-4 py-12 text-center">
         <h1 className="text-3xl font-bold mb-4" style={{ color: '#0F1F3F' }}>
-          Refund Status
+          {t('refund.title')}
         </h1>
         <p style={{ color: '#4B5563' }} className="mb-6">
-          Your application is not eligible for refund. Refunds are only processed for 
-          rejected applications.
+          {t('refund.notEligible')}
         </p>
         <div className="flex gap-4 justify-center">
           <Link href="/user/application/status">
-            <Button>View Application Status</Button>
+            <Button>{t('allotment.viewStatus')}</Button>
           </Link>
           <Link href="/user/dashboard">
-            <Button variant="outline">Back to Dashboard</Button>
+            <Button variant="outline">{t('status.backToDashboard')}</Button>
           </Link>
         </div>
       </div>
@@ -75,13 +76,13 @@ export default function RefundStatusPage() {
     return (
       <div className="container mx-auto px-4 py-12 text-center">
         <h1 className="text-3xl font-bold mb-4" style={{ color: '#0F1F3F' }}>
-          Refund Status
+          {t('refund.title')}
         </h1>
         <p style={{ color: '#4B5563' }} className="mb-6">
-          No refund record found for your application.
+          {t('refund.noRecord')}
         </p>
         <Link href="/user/dashboard">
-          <Button variant="outline">Back to Dashboard</Button>
+          <Button variant="outline">{t('status.backToDashboard')}</Button>
         </Link>
       </div>
     );
@@ -126,12 +127,12 @@ export default function RefundStatusPage() {
 
       <div className="bg-white shadow-lg rounded-lg p-8 mb-6">
         <h2 className="text-2xl font-semibold mb-6" style={{ color: '#0F1F3F' }}>
-          Refund Information
+          {t('refund.information')}
         </h2>
         
         <div className="space-y-6">
           <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-            <span style={{ color: '#4B5563' }}>Refund Status</span>
+            <span style={{ color: '#4B5563' }}>{t('refund.status')}</span>
             <span className={`inline-block px-4 py-2 rounded-full text-white font-semibold ${getStatusColor(refund.status)}`}>
               {getStatusText(refund.status)}
             </span>
@@ -139,24 +140,24 @@ export default function RefundStatusPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Refund ID</p>
+              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('refund.refundId')}</p>
               <p className="font-semibold">{refund.id}</p>
             </div>
             <div>
-              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Application ID</p>
+              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('status.applicationId')}</p>
               <p className="font-semibold">{refund.applicationId}</p>
             </div>
             <div>
-              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Refund Amount</p>
+              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('refund.amount')}</p>
               <p className="font-bold text-2xl text-green-600">₹{refund.amount}</p>
             </div>
             <div>
-              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Requested Date</p>
+              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('refund.requestedAt')}</p>
               <p className="font-semibold">{new Date(refund.requestedAt).toLocaleDateString()}</p>
             </div>
             {refund.processedAt && (
               <div>
-                <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Processed Date</p>
+                <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('refund.processedAt')}</p>
                 <p className="font-semibold">{new Date(refund.processedAt).toLocaleDateString()}</p>
               </div>
             )}
@@ -167,7 +168,7 @@ export default function RefundStatusPage() {
       {/* Refund Timeline */}
       <div className="bg-white shadow-lg rounded-lg p-8 mb-6">
         <h2 className="text-2xl font-semibold mb-6" style={{ color: '#0F1F3F' }}>
-          Refund Timeline
+          {t('refund.timeline')}
         </h2>
         <div className="space-y-4">
           <div className="flex items-start">
@@ -177,9 +178,9 @@ export default function RefundStatusPage() {
               </div>
             </div>
             <div className="ml-4">
-              <p className="font-semibold" style={{ color: '#0F1F3F' }}>Application Rejected</p>
+              <p className="font-semibold" style={{ color: '#0F1F3F' }}>{t('refund.applicationRejected')}</p>
               <p className="text-sm" style={{ color: '#4B5563' }}>
-                Your application was rejected during verification
+                {t('refund.rejectedDesc')}
               </p>
               <p className="text-xs mt-1" style={{ color: '#4B5563' }}>
                 {new Date(application.verifiedAt || application.updatedAt).toLocaleDateString()}
@@ -197,12 +198,12 @@ export default function RefundStatusPage() {
             </div>
             <div className="ml-4">
               <p className="font-semibold" style={{ color: '#0F1F3F' }}>
-                {refund.status === 'completed' ? 'Refund Processed' : 'Refund Processing'}
+                {refund.status === 'completed' ? t('refund.processed') : t('refund.processing')}
               </p>
               <p className="text-sm" style={{ color: '#4B5563' }}>
                 {refund.status === 'completed' 
-                  ? 'Refund has been processed and credited to your account'
-                  : 'Refund is being processed. It will be credited within 15-30 working days'}
+                  ? t('refund.creditedDesc')
+                  : t('refund.processingDesc')}
               </p>
             </div>
           </div>
@@ -215,7 +216,7 @@ export default function RefundStatusPage() {
                 </div>
               </div>
               <div className="ml-4">
-                <p className="font-semibold" style={{ color: '#0F1F3F' }}>Refund Credited</p>
+                <p className="font-semibold" style={{ color: '#0F1F3F' }}>{t('refund.credited')}</p>
                 <p className="text-sm" style={{ color: '#4B5563' }}>
                   Amount has been credited to your registered bank account
                 </p>
@@ -233,26 +234,25 @@ export default function RefundStatusPage() {
       {/* Bank Details */}
       <div className="bg-white shadow-lg rounded-lg p-8 mb-6">
         <h2 className="text-2xl font-semibold mb-4" style={{ color: '#0F1F3F' }}>
-          Refund Bank Details
+          {t('refund.bankDetails')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Account Number</p>
+            <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('refund.accountNumber')}</p>
             <p className="font-semibold">{application.bankAccount || 'N/A'}</p>
           </div>
           <div>
-            <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Bank Name</p>
+            <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('form.bankName')}</p>
             <p className="font-semibold">{application.bankName || 'N/A'}</p>
           </div>
           <div>
-            <p className="text-sm mb-1" style={{ color: '#4B5563' }}>IFSC Code</p>
+            <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('form.ifsc')}</p>
             <p className="font-semibold">{application.ifsc || 'N/A'}</p>
           </div>
         </div>
         <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
           <p className="text-sm" style={{ color: '#4B5563' }}>
-            <strong>Note:</strong> Refund will be processed to the bank account provided during 
-            application. If you need to update bank details, please contact support.
+            <strong>{t('common.view')}:</strong> {t('refund.bankNote')}
           </p>
         </div>
       </div>
@@ -260,16 +260,15 @@ export default function RefundStatusPage() {
       {/* Contact Support */}
       <div className="bg-gray-50 rounded-lg p-6 text-center">
         <h3 className="font-semibold mb-2" style={{ color: '#0F1F3F' }}>
-          Need Help?
+          {t('refund.needHelp')}
         </h3>
         <p className="text-sm mb-4" style={{ color: '#4B5563' }}>
-          If you have questions about your refund or need to update bank details, 
-          please contact our support team.
+          {t('refund.helpDesc')}
         </p>
         <div className="flex gap-4 justify-center">
-          <Button variant="outline" size="sm">Contact Support</Button>
+          <Button variant="outline" size="sm">{t('refund.contactSupport')}</Button>
           <Link href="/user/dashboard">
-            <Button variant="outline" size="sm">Back to Dashboard</Button>
+            <Button variant="outline" size="sm">{t('status.backToDashboard')}</Button>
           </Link>
         </div>
       </div>

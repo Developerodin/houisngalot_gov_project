@@ -6,10 +6,12 @@ import Input from '@/components/shared/Input';
 import Button from '@/components/shared/Button';
 import { userStorage, adminStorage } from '@/utils/localStorage';
 import { generateMockApplication } from '@/utils/mockData';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const TOTAL_STEPS = 8;
 
 export default function ApplicationPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<any>({});
@@ -77,21 +79,21 @@ export default function ApplicationPage() {
       case 1:
         return (
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold mb-4">Identity Details</h2>
+            <h2 className="text-xl font-semibold mb-4">{t('application.identity.title')}</h2>
             <Input
-              label="Full Name"
+              label={t('form.name')}
               value={formData.name || ''}
               onChange={(e) => handleChange('name', e.target.value)}
               required
             />
             <Input
-              label="Aadhaar Number"
+              label={t('form.aadhaar')}
               value={formData.aadhaar || ''}
               onChange={(e) => handleChange('aadhaar', e.target.value)}
               required
             />
             <Input
-              label="Date of Birth"
+              label={t('form.dob')}
               type="date"
               value={formData.dob || ''}
               onChange={(e) => handleChange('dob', e.target.value)}
@@ -102,27 +104,27 @@ export default function ApplicationPage() {
       case 2:
         return (
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold mb-4">Residence Details</h2>
+            <h2 className="text-xl font-semibold mb-4">{t('application.residence.title')}</h2>
             <Input
-              label="Address"
+              label={t('form.address')}
               value={formData.address || ''}
               onChange={(e) => handleChange('address', e.target.value)}
               required
             />
             <Input
-              label="City"
+              label={t('form.city')}
               value={formData.city || ''}
               onChange={(e) => handleChange('city', e.target.value)}
               required
             />
             <Input
-              label="State"
+              label={t('form.state')}
               value={formData.state || ''}
               onChange={(e) => handleChange('state', e.target.value)}
               required
             />
             <Input
-              label="Pincode"
+              label={t('form.pincode')}
               value={formData.pincode || ''}
               onChange={(e) => handleChange('pincode', e.target.value)}
               required
@@ -132,16 +134,16 @@ export default function ApplicationPage() {
       case 3:
         return (
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold mb-4">Family Details</h2>
+            <h2 className="text-xl font-semibold mb-4">{t('application.family.title')}</h2>
             <Input
-              label="Number of Family Members"
+              label={t('form.familyMembers')}
               type="number"
               value={formData.familyMembers || ''}
               onChange={(e) => handleChange('familyMembers', e.target.value)}
               required
             />
             <Input
-              label="Number of Dependents"
+              label={t('form.dependents')}
               type="number"
               value={formData.dependents || ''}
               onChange={(e) => handleChange('dependents', e.target.value)}
@@ -152,23 +154,23 @@ export default function ApplicationPage() {
       case 4:
         return (
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold mb-4">Income Details</h2>
+            <h2 className="text-xl font-semibold mb-4">{t('application.income.title')}</h2>
             <Input
-              label="Annual Income (₹)"
+              label={t('form.annualIncome')}
               type="number"
               value={formData.annualIncome || ''}
               onChange={(e) => handleChange('annualIncome', e.target.value)}
               required
             />
             <div>
-              <label className="block text-sm font-medium mb-2">Income Category</label>
+              <label className="block text-sm font-medium mb-2">{t('form.incomeCategory')}</label>
               <select
                 value={formData.category || ''}
                 onChange={(e) => handleChange('category', e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                 required
               >
-                <option value="">Select Category</option>
+                <option value="">{t('eligibility.checker.select')} {t('form.incomeCategory')}</option>
                 <option value="EWS">EWS</option>
                 <option value="LIG">LIG</option>
                 <option value="MIG">MIG</option>
@@ -180,21 +182,21 @@ export default function ApplicationPage() {
       case 5:
         return (
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold mb-4">Bank Details</h2>
+            <h2 className="text-xl font-semibold mb-4">{t('application.bank.title')}</h2>
             <Input
-              label="Bank Account Number"
+              label={t('form.bankAccount')}
               value={formData.bankAccount || ''}
               onChange={(e) => handleChange('bankAccount', e.target.value)}
               required
             />
             <Input
-              label="IFSC Code"
+              label={t('form.ifsc')}
               value={formData.ifsc || ''}
               onChange={(e) => handleChange('ifsc', e.target.value)}
               required
             />
             <Input
-              label="Bank Name"
+              label={t('form.bankName')}
               value={formData.bankName || ''}
               onChange={(e) => handleChange('bankName', e.target.value)}
               required
@@ -204,7 +206,7 @@ export default function ApplicationPage() {
       case 6:
         return (
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold mb-4">Special Categories</h2>
+            <h2 className="text-xl font-semibold mb-4">{t('application.categories.title')}</h2>
             <div className="space-y-2">
               {['EWS', 'LIG', 'MIG', 'HIG'].map((cat) => (
                 <label key={cat} className="flex items-center">
@@ -223,18 +225,18 @@ export default function ApplicationPage() {
       case 7:
         return (
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold mb-4">Declarations</h2>
+            <h2 className="text-xl font-semibold mb-4">{t('application.declarations.title')}</h2>
             <div className="space-y-4">
               <label className="flex items-start">
                 <input type="checkbox" required className="mt-1 mr-2" />
                 <span style={{ color: '#4B5563' }}>
-                  I declare that all information provided is true and correct.
+                  {t('declaration.truth')}
                 </span>
               </label>
               <label className="flex items-start">
                 <input type="checkbox" required className="mt-1 mr-2" />
                 <span style={{ color: '#4B5563' }}>
-                  I understand that false information may lead to rejection.
+                  {t('declaration.falseInfo')}
                 </span>
               </label>
             </div>
@@ -243,12 +245,12 @@ export default function ApplicationPage() {
       case 8:
         return (
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold mb-4">Review & Submit</h2>
+            <h2 className="text-xl font-semibold mb-4">{t('application.review.title')}</h2>
             <div className="bg-gray-50 p-4 rounded-lg space-y-2">
-              <p><strong>Name:</strong> {formData.name}</p>
-              <p><strong>Category:</strong> {formData.category}</p>
-              <p><strong>Income:</strong> ₹{formData.annualIncome}</p>
-              <p><strong>City:</strong> {formData.city}</p>
+              <p><strong>{t('review.name')}</strong> {formData.name}</p>
+              <p><strong>{t('review.category')}</strong> {formData.category}</p>
+              <p><strong>{t('review.income')}</strong> ₹{formData.annualIncome}</p>
+              <p><strong>{t('review.city')}</strong> {formData.city}</p>
             </div>
           </div>
         );
@@ -260,13 +262,13 @@ export default function ApplicationPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl">
       <h1 className="text-3xl font-bold mb-6" style={{ color: '#0F1F3F' }}>
-        Application Form
+        {t('application.title')}
       </h1>
 
       <div className="bg-white shadow-lg rounded-lg p-8">
         <div className="mb-6">
           <div className="flex justify-between mb-2">
-            <span className="text-sm font-medium">Step {step} of {TOTAL_STEPS}</span>
+            <span className="text-sm font-medium">{t('application.step')} {step} {t('eligibility.checker.of')} {TOTAL_STEPS}</span>
             <span className="text-sm" style={{ color: '#4B5563' }}>
               {Math.round((step / TOTAL_STEPS) * 100)}%
             </span>
@@ -284,16 +286,16 @@ export default function ApplicationPage() {
         <div className="flex gap-4 mt-8">
           {step > 1 && (
             <Button onClick={handleBack} variant="outline" fullWidth>
-              Back
+              {t('application.back')}
             </Button>
           )}
           {step < TOTAL_STEPS ? (
             <Button onClick={handleNext} fullWidth bypass onBypass={handleBypass}>
-              Next
+              {t('application.next')}
             </Button>
           ) : (
             <Button onClick={handleSubmit} fullWidth bypass onBypass={handleBypass}>
-              Submit Application
+              {t('application.submit')}
             </Button>
           )}
         </div>

@@ -7,8 +7,10 @@ import Input from '@/components/shared/Input';
 import Button from '@/components/shared/Button';
 import { userStorage } from '@/utils/localStorage';
 import { generateMockUser, generateMockUserProfile } from '@/utils/mockData';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function RegisterPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [step, setStep] = useState<'mobile' | 'otp' | 'password'>('mobile');
   const [mobile, setMobile] = useState('');
@@ -57,26 +59,26 @@ export default function RegisterPage() {
     <div className="container mx-auto px-4 py-12 max-w-md">
       <div className="bg-white shadow-lg rounded-lg p-8">
         <h1 className="text-3xl font-bold mb-6 text-center" style={{ color: '#0F1F3F' }}>
-          Register
+          {t('auth.register.title')}
         </h1>
 
         {step === 'mobile' && (
           <form onSubmit={handleMobileSubmit} className="space-y-4">
             <Input
-              label="Mobile Number"
+              label={t('auth.register.mobile')}
               type="tel"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
-              placeholder="9876543210"
+              placeholder={t('auth.register.mobilePlaceholder')}
               required
             />
             <Button type="submit" fullWidth bypass onBypass={handleBypass}>
-              Send OTP
+              {t('auth.register.sendOtp')}
             </Button>
             <p className="text-center text-sm" style={{ color: '#4B5563' }}>
-              Already have an account?{' '}
+              {t('auth.register.haveAccount')}{' '}
               <Link href="/auth/login" className="text-blue-600 hover:underline">
-                Login
+                {t('auth.login.title')}
               </Link>
             </p>
           </form>
@@ -85,22 +87,22 @@ export default function RegisterPage() {
         {step === 'otp' && (
           <form onSubmit={handleOtpSubmit} className="space-y-4">
             <Input
-              label="Enter OTP"
+              label={t('auth.register.enterOtp')}
               type="text"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
-              placeholder="123456"
+              placeholder={t('auth.register.otpPlaceholder')}
               required
             />
             <Button type="submit" fullWidth bypass onBypass={handleBypass}>
-              Verify OTP
+              {t('auth.register.verifyOtp')}
             </Button>
             <button
               type="button"
               onClick={() => setStep('mobile')}
               className="text-sm text-blue-600 hover:underline w-full text-center"
             >
-              Change Mobile Number
+              {t('auth.register.changeMobile')}
             </button>
           </form>
         )}
@@ -108,21 +110,21 @@ export default function RegisterPage() {
         {step === 'password' && (
           <form onSubmit={handlePasswordSubmit} className="space-y-4">
             <Input
-              label="Create Password"
+              label={t('auth.register.createPassword')}
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
             <Input
-              label="Confirm Password"
+              label={t('auth.register.confirmPassword')}
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
             <Button type="submit" fullWidth bypass onBypass={handleBypass}>
-              Create Account
+              {t('auth.register.createAccount')}
             </Button>
           </form>
         )}

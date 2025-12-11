@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Button from '@/components/shared/Button';
 import { userStorage, adminStorage } from '@/utils/localStorage';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function AllotmentPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [allotment, setAllotment] = useState<any>(null);
   const [application, setApplication] = useState<any>(null);
@@ -37,25 +39,24 @@ export default function AllotmentPage() {
   }, [router]);
 
   if (!application) {
-    return <div className="container mx-auto px-4 py-12 text-center">Loading...</div>;
+    return <div className="container mx-auto px-4 py-12 text-center">{t('common.loading')}</div>;
   }
 
   if (!allotment) {
     return (
       <div className="container mx-auto px-4 py-12 text-center">
         <h1 className="text-3xl font-bold mb-4" style={{ color: '#0F1F3F' }}>
-          Allotment Status
+          {t('allotment.status')}
         </h1>
         <p style={{ color: '#4B5563' }} className="mb-6">
-          Your application has not been allotted yet. Please check back later or view your 
-          application status for updates.
+          {t('allotment.notAllotted')}
         </p>
         <div className="flex gap-4 justify-center">
           <Link href="/user/application/status">
-            <Button>View Application Status</Button>
+            <Button>{t('allotment.viewStatus')}</Button>
           </Link>
           <Link href="/user/dashboard">
-            <Button variant="outline">Back to Dashboard</Button>
+            <Button variant="outline">{t('status.backToDashboard')}</Button>
           </Link>
         </div>
       </div>
@@ -66,10 +67,10 @@ export default function AllotmentPage() {
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold" style={{ color: '#0F1F3F' }}>
-          Allotment Letter
+          {t('allotment.title')}
         </h1>
         <Button onClick={() => window.print()} variant="outline">
-          Print / Download
+          {t('allotment.print')}
         </Button>
       </div>
 
@@ -77,59 +78,59 @@ export default function AllotmentPage() {
       <div className="bg-white shadow-lg rounded-lg p-8 mb-6 border-2 border-gray-200">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold mb-2" style={{ color: '#0F1F3F' }}>
-            ALLOTMENT LETTER
+            {t('allotment.letter')}
           </h2>
           <p className="text-lg" style={{ color: '#4B5563' }}>
-            Affordable Housing Scheme 2024
+            {t('home.hero.title')}
           </p>
         </div>
 
         <div className="space-y-6 mb-8">
           <div>
-            <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Allotment ID</p>
+            <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('allotment.id')}</p>
             <p className="font-semibold text-lg">{allotment.id}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Application ID</p>
+              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('status.applicationId')}</p>
               <p className="font-semibold">{allotment.applicationId}</p>
             </div>
             <div>
-              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Plot Number</p>
+              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('allotment.plotNumber')}</p>
               <p className="font-semibold text-xl text-blue-600">{allotment.plotNumber}</p>
             </div>
             <div>
-              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Allotment Date</p>
+              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('allotment.allotmentDate')}</p>
               <p className="font-semibold">{new Date(allotment.allotmentDate).toLocaleDateString()}</p>
             </div>
             <div>
-              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Status</p>
+              <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('status.currentStatus')}</p>
               <span className="inline-block px-3 py-1 rounded-full text-white text-sm bg-green-500">
-                {allotment.status.toUpperCase()}
+                {t(`status.${allotment.status?.replace('_', '') || 'allotted'}`)}
               </span>
             </div>
           </div>
 
           <div className="border-t pt-6">
             <h3 className="text-xl font-semibold mb-4" style={{ color: '#0F1F3F' }}>
-              Applicant Details
+              {t('allotment.applicantDetails')}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Name</p>
+                <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('form.name')}</p>
                 <p className="font-semibold">{application.name || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Category</p>
+                <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('form.incomeCategory')}</p>
                 <p className="font-semibold">{application.category || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm mb-1" style={{ color: '#4B5563' }}>Address</p>
+                <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('form.address')}</p>
                 <p className="font-semibold">{application.address || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm mb-1" style={{ color: '#4B5563' }}>City</p>
+                <p className="text-sm mb-1" style={{ color: '#4B5563' }}>{t('form.city')}</p>
                 <p className="font-semibold">{application.city || 'N/A'}</p>
               </div>
             </div>

@@ -7,8 +7,10 @@ import Button from '@/components/shared/Button';
 import Input from '@/components/shared/Input';
 import { adminStorage } from '@/utils/localStorage';
 import { ApplicationStatus } from '@/types';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function ApplicationsPage() {
+  const { t } = useLanguage();
   const router = useRouter();
   const [applications, setApplications] = useState<any[]>([]);
   const [filter, setFilter] = useState<ApplicationStatus | 'all'>('all');
@@ -52,34 +54,34 @@ export default function ApplicationsPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold" style={{ color: '#0F1F3F' }}>
-          Applications
+          {t('admin.applications.title')}
         </h1>
         <Link href="/admin/dashboard">
-          <Button variant="outline">Back to Dashboard</Button>
+          <Button variant="outline">{t('status.backToDashboard')}</Button>
         </Link>
       </div>
 
       <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <Input
-            label="Search"
+            label={t('common.search')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by name or ID..."
+            placeholder={t('admin.applications.search')}
           />
           <div>
-            <label className="block text-sm font-medium mb-2">Filter by Status</label>
+            <label className="block text-sm font-medium mb-2">{t('admin.applications.filter')}</label>
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value as any)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             >
-              <option value="all">All</option>
-              <option value="submitted">Submitted</option>
-              <option value="paid">Paid</option>
-              <option value="under_verification">Under Verification</option>
-              <option value="verified">Verified</option>
-              <option value="rejected">Rejected</option>
+              <option value="all">{t('admin.applications.all')}</option>
+              <option value="submitted">{t('status.submitted')}</option>
+              <option value="paid">{t('status.paid')}</option>
+              <option value="under_verification">{t('status.underVerification')}</option>
+              <option value="verified">{t('status.verified')}</option>
+              <option value="rejected">{t('status.rejected')}</option>
             </select>
           </div>
         </div>
@@ -90,19 +92,19 @@ export default function ApplicationsPage() {
           <thead style={{ backgroundColor: '#F9FAFB' }}>
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase" style={{ color: '#4B5563' }}>
-                Application ID
+                {t('status.applicationId')}
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase" style={{ color: '#4B5563' }}>
-                Name
+                {t('form.name')}
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase" style={{ color: '#4B5563' }}>
-                Category
+                {t('form.incomeCategory')}
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase" style={{ color: '#4B5563' }}>
-                Status
+                {t('status.currentStatus')}
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium uppercase" style={{ color: '#4B5563' }}>
-                Actions
+                {t('common.actions')}
               </th>
             </tr>
           </thead>
@@ -110,7 +112,7 @@ export default function ApplicationsPage() {
             {filteredApps.length === 0 ? (
               <tr>
                 <td colSpan={5} className="px-6 py-8 text-center" style={{ color: '#4B5563' }}>
-                  No applications found
+                  {t('admin.applications.noFound')}
                 </td>
               </tr>
             ) : (
@@ -131,12 +133,12 @@ export default function ApplicationsPage() {
                         app.status
                       )}`}
                     >
-                      {app.status?.replace('_', ' ').toUpperCase() || 'DRAFT'}
+                      {t(`status.${app.status?.replace('_', '') || 'draft'}`)}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <Link href={`/admin/applications/${app.id}`}>
-                      <Button size="sm" variant="outline">View</Button>
+                      <Button size="sm" variant="outline">{t('common.view')}</Button>
                     </Link>
                   </td>
                 </tr>
