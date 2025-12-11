@@ -4,16 +4,9 @@ import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <footer
-      className="mt-12 border-t"
-      style={{
-        backgroundColor: '#1F2937',
-        color: '#FFFFFF',
-        borderTopColor: '#374151',
-      }}
-    >
-      {/* Footer Image */}
-      <div className="w-full relative h-48 md:h-64 lg:h-80 overflow-hidden">
+    <footer className="mt-12 border-t relative overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 w-full h-full z-0">
         <Image
           src="/assest/footer.png"
           alt="Rajasthan Government Footer"
@@ -22,9 +15,12 @@ export default function Footer() {
           loading="lazy"
           sizes="100vw"
         />
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/50"></div>
       </div>
       
-      <div className="container mx-auto px-4 py-8">
+      {/* Content on top of background */}
+      <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
           <div>
             <h3 className="text-lg font-semibold mb-4" style={{ color: '#FFFFFF' }}>
@@ -73,7 +69,7 @@ export default function Footer() {
             </p>
           </div>
         </div>
-        <div className="border-t pt-6 text-center" style={{ borderTopColor: '#374151' }}>
+        <div className="border-t pt-6 text-center" style={{ borderTopColor: 'rgba(255, 255, 255, 0.3)' }}>
           <p className="text-sm" style={{ color: '#E5E7EB' }}>
             © {new Date().getFullYear()} Housingalot Project. All rights reserved. | 
             <a href="#" className="hover:underline ml-2" style={{ color: '#E5E7EB' }}>Privacy Policy</a> | 

@@ -17,41 +17,43 @@ export default function LazyVideo({
   muted = true, 
   playsInline = true 
 }: LazyVideoProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isInView, setIsInView] = useState(false);
   const [shouldLoad, setShouldLoad] = useState(false);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    const container = containerRef.current;
+    if (!container) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setIsInView(true);
             setShouldLoad(true);
             // Auto-play when in view
-            if (video.paused) {
-              video.play().catch(() => {
-                // Ignore autoplay errors
-              });
-            }
+            setTimeout(() => {
+              const video = videoRef.current;
+              if (video && video.paused) {
+                video.play().catch(() => {
+                  // Ignore autoplay errors
+                });
+              }
+            }, 100);
           } else {
-            setIsInView(false);
             // Pause when out of view to save resources
-            if (!video.paused) {
+            const video = videoRef.current;
+            if (video && !video.paused) {
               video.pause();
             }
           }
         });
       },
       {
-        threshold: 0.25, // Start loading when 25% visible
+        threshold: 0.1, // Start loading when 10% visible
       }
     );
 
-    observer.observe(video);
+    observer.observe(container);
 
     return () => {
       observer.disconnect();
@@ -59,7 +61,7 @@ export default function LazyVideo({
   }, []);
 
   return (
-    <div className={className}>
+    <div ref={containerRef} className={className}>
       {shouldLoad ? (
         <video
           ref={videoRef}
@@ -67,13 +69,14 @@ export default function LazyVideo({
           muted={muted}
           playsInline={playsInline}
           preload="metadata"
+          autoPlay
           className="w-full h-auto"
         >
           <source src={src} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       ) : (
-        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+        <div className="w-full h-full bg-gray-200 flex items-center justify-center min-h-[200px]">
           <div className="text-gray-400 text-sm">Loading video...</div>
         </div>
       )}
