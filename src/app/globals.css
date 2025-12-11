@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+:root {
+  /* Header */
+  --header-bg: #1E3A5F;
+  --header-text: #FFFFFF;
+  --header-hover: #E0F3FF;
+  
+  /* Headings */
+  --heading-primary: #0F1F3F;
+  --heading-secondary: #1E3A5F;
+  --heading-tertiary: #2E4A6F;
+  
+  /* Text */
+  --text-primary: #1F2937;
+  --text-secondary: #4B5563;
+  --text-light: #6B7280;
+  --text-inverse: #FFFFFF;
+  
+  /* Links */
+  --link-default: #1E3A5F;
+  --link-hover: #0F1F3F;
+  --link-active: #1A73E8;
+  
+  /* Backgrounds */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F9FAFB;
+  --bg-tertiary: #F3F4F6;
+  
+  /* Borders */
+  --border-light: #E5E7EB;
+  --border-medium: #D1D5DB;
+  
+  /* Accent */
+  --accent-primary: #1A73E8;
+  --accent-success: #10B981;
+  --accent-warning: #F59E0B;
+  --accent-error: #EF4444;
+}
+
+body {
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .header-navy {
+    background-color: var(--header-bg);
+    color: var(--header-text);
+  }
+  
+  .heading-navy {
+    color: var(--heading-primary);
+  }
+  
+  .link-navy {
+    color: var(--link-default);
+  }
+  
+  .link-navy:hover {
+    color: var(--link-hover);
+  }
+}
