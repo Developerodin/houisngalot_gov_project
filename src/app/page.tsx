@@ -69,7 +69,7 @@ export default function Home() {
           {/* About the Scheme - Video and Text Side by Side */}
           <div className="bg-white shadow-sm rounded-xl border border-gray-200 overflow-hidden">
             <div className="flex flex-col md:flex-row">
-              {/* Video Section - Takes original height */}
+              {/* Video Section */}
               <div className="w-full md:w-1/2 flex items-center justify-center">
                 <LazyVideo
                   src="/assest/B2ByPass.mp4"
@@ -80,15 +80,25 @@ export default function Home() {
                 />
               </div>
               {/* Text Section */}
-              <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
-                <h3 className="text-xl md:text-2xl font-semibold mb-4" style={{ color: '#0747A6' }}>
-                  {t('scheme.about.title')}
-                </h3>
+              <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col">
+                <div className="flex items-center gap-2 mb-4">
+                  <img
+                    src="/assest/NEW.gif"
+                    alt="About the Scheme"
+                    style={{ width: '28px', height: 'auto' }}
+                  />
+                  <h3 className="text-xl md:text-2xl font-semibold" style={{ color: '#0747A6' }}>
+                    {t('scheme.about.title')}
+                  </h3>
+                </div>
                 <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: '#4B5563' }}>
                   {t('scheme.about.description1')}
                 </p>
-                <p className="text-sm md:text-base leading-relaxed" style={{ color: '#4B5563' }}>
+                <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: '#4B5563' }}>
                   {t('scheme.about.description2')}
+                </p>
+                <p className="text-sm md:text-base leading-relaxed" style={{ color: '#4B5563' }}>
+                  {t('scheme.about.description3')}
                 </p>
               </div>
             </div>
@@ -98,7 +108,7 @@ export default function Home() {
             <h3 className="text-xl md:text-2xl font-semibold mb-4" style={{ color: '#0747A6' }}>
               {t('scheme.highlights.title')}
             </h3>
-            <ul className="space-y-3" style={{ color: '#4B5563' }}>
+            <ul className="space-y-3 mb-6" style={{ color: '#4B5563' }}>
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
                 <span>{t('scheme.highlights.online')}</span>
@@ -124,6 +134,13 @@ export default function Home() {
                 <span>{t('scheme.highlights.digital')}</span>
               </li>
             </ul>
+            <div className="mt-4 flex justify-center">
+              <img
+                src="/assest/Rajasthan-Ki-Sarkari-Yojnaye.png"
+                alt="Rajasthan Ki Sarkari Yojnaye"
+                className="w-full h-auto max-w-md"
+              />
+            </div>
           </div>
         </div>
       </section>

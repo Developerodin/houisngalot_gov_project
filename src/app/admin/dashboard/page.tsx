@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Button from '@/components/shared/Button';
 import { adminStorage } from '@/utils/localStorage';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { initializeAdminMockData } from '@/utils/adminMockData';
 
 export default function AdminDashboard() {
   const { t } = useLanguage();
@@ -25,6 +26,9 @@ export default function AdminDashboard() {
       return;
     }
     setAdmin((auth as { user: any }).user);
+
+    // Initialize mock data if not exists
+    initializeAdminMockData();
 
     const applications = adminStorage.getApplications();
     setStats({
@@ -77,12 +81,12 @@ export default function AdminDashboard() {
           <h2 className="text-xl font-semibold mb-4" style={{ color: '#0F1F3F' }}>
             {t('user.dashboard.quickActions')}
           </h2>
-          <div className="space-y-3">
+          <div className="flex flex-col gap-4">
             <Link href="/admin/applications">
               <Button fullWidth>{t('common.view')} {t('admin.dashboard.totalApplications')}</Button>
             </Link>
             <Link href="/admin/verification">
-              <Button fullWidth variant="secondary">{t('admin.dashboard.pendingVerification')}</Button>
+              <Button fullWidth variant="outline">{t('admin.dashboard.pendingVerification')}</Button>
             </Link>
             <Link href="/admin/lottery">
               <Button fullWidth variant="outline">{t('process.step6.title')} {t('common.actions')}</Button>
@@ -97,7 +101,7 @@ export default function AdminDashboard() {
           <h2 className="text-xl font-semibold mb-4" style={{ color: '#0F1F3F' }}>
             {t('common.actions')}
           </h2>
-          <div className="space-y-3">
+          <div className="flex flex-col gap-4">
             <Link href="/admin/schemes">
               <Button fullWidth variant="outline">{t('scheme.title')} {t('common.actions')}</Button>
             </Link>

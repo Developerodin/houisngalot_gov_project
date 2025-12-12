@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Button from '@/components/shared/Button';
 import { adminStorage } from '@/utils/localStorage';
 import { ApplicationStatus } from '@/types';
+import { initializeAdminMockData } from '@/utils/adminMockData';
 
 export default function ApplicationDetailPage() {
   const router = useRouter();
@@ -19,6 +20,9 @@ export default function ApplicationDetailPage() {
       router.push('/admin/login');
       return;
     }
+
+    // Initialize mock data if not exists
+    initializeAdminMockData();
 
     const apps = adminStorage.getApplications();
     const app = apps.find((a: any) => a.id === params.id);

@@ -8,6 +8,7 @@ import Input from '@/components/shared/Input';
 import { adminStorage } from '@/utils/localStorage';
 import { ApplicationStatus } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { initializeAdminMockData } from '@/utils/adminMockData';
 
 export default function ApplicationsPage() {
   const { t } = useLanguage();
@@ -22,6 +23,9 @@ export default function ApplicationsPage() {
       router.push('/admin/login');
       return;
     }
+
+    // Initialize mock data if not exists
+    initializeAdminMockData();
 
     const apps = adminStorage.getApplications();
     setApplications(apps);

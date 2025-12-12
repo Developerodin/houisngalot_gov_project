@@ -5,11 +5,12 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Button from '@/components/shared/Button';
 import { adminStorage } from '@/utils/localStorage';
+import { initializeAdminMockData } from '@/utils/adminMockData';
 
 export default function LotteryPage() {
   const router = useRouter();
   const [lottery, setLottery] = useState<any>(null);
-  const [winners, setWinners] = useState<string[]>([]);
+  const [winners, setWinners] = useState<any[]>([]);
 
   useEffect(() => {
     const auth = adminStorage.getAuth();
@@ -18,10 +19,18 @@ export default function LotteryPage() {
       return;
     }
 
+    // Initialize mock data if not exists
+    initializeAdminMockData();
+
     const lotteryData = adminStorage.getLottery();
     setLottery(lotteryData);
     if (lotteryData && typeof lotteryData === 'object' && 'winners' in lotteryData) {
-      setWinners(Array.isArray(lotteryData.winners) ? lotteryData.winners : []);
+      const winnerIds = Array.isArray(lotteryData.winners) ? lotteryData.winners : [];
+      const applications = adminStorage.getApplications();
+      const winnerApps = winnerIds.map((id: string) => 
+        applications.find((app: any) => app.id === id)
+      ).filter(Boolean);
+      setWinners(winnerApps);
     }
   }, [router]);
 
@@ -29,27 +38,33 @@ export default function LotteryPage() {
     const applications = adminStorage.getApplications();
     const verified = applications.filter((app: any) => app.status === 'verified');
     
-    // Mock lottery - randomly select 10 winners
-    const selected = verified
+    if (verified.length === 0) {
+      alert('No verified applications available for lottery. Please verify some applications first.');
+      return;
+    }
+    
+    // Mock lottery - randomly select up to 10 winners
+    const selectedApps = verified
       .sort(() => Math.random() - 0.5)
-      .slice(0, Math.min(10, verified.length))
-      .map((app: any) => app.id);
+      .slice(0, Math.min(10, verified.length));
+    
+    const selectedIds = selectedApps.map((app: any) => app.id);
 
     const lotteryData = {
       id: `lottery_${Date.now()}`,
       schemeId: 'scheme_1',
       conductedAt: new Date().toISOString(),
       seedHash: `hash_${Math.random().toString(36).substr(2, 9)}`,
-      winners: selected,
+      winners: selectedIds,
     };
 
     adminStorage.setLottery(lotteryData);
     setLottery(lotteryData);
-    setWinners(selected);
+    setWinners(selectedApps);
 
     // Update application statuses
-    selected.forEach((appId: string) => {
-      adminStorage.updateApplication(appId, { status: 'selected' });
+    selectedIds.forEach((appId: string) => {
+      adminStorage.updateApplication(appId, { status: 'selected', updatedAt: new Date().toISOString() });
     });
   };
 
@@ -92,11 +107,22 @@ export default function LotteryPage() {
             <div>
               <p className="text-sm mb-2" style={{ color: '#4B5563' }}>Winners ({winners.length})</p>
               <div className="bg-gray-50 p-4 rounded-lg max-h-64 overflow-y-auto">
-                {winners.map((winnerId, index) => (
-                  <div key={winnerId} className="py-2 border-b last:border-b-0">
-                    {index + 1}. {winnerId}
-                  </div>
-                ))}
+                {winners.length === 0 ? (
+                  <p className="text-sm" style={{ color: '#4B5563' }}>No winners found</p>
+                ) : (
+                  winners.map((winner, index) => (
+                    <div key={winner.id} className="py-2 border-b last:border-b-0">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="font-semibold">{index + 1}. {winner.name || 'N/A'}</p>
+                          <p className="text-sm" style={{ color: '#4B5563' }}>
+                            {winner.id} • {winner.category} • {winner.city}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
             <Button onClick={handleRunLottery} variant="outline">

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Button from '@/components/shared/Button';
 import { adminStorage } from '@/utils/localStorage';
+import { initializeAdminMockData } from '@/utils/adminMockData';
 
 export default function VerificationPage() {
   const router = useRouter();
@@ -17,6 +18,9 @@ export default function VerificationPage() {
       return;
     }
 
+    // Initialize mock data if not exists
+    initializeAdminMockData();
+
     const apps = adminStorage.getApplications();
     const pending = apps.filter((app: any) => 
       app.status === 'under_verification' || app.status === 'paid'
@@ -28,9 +32,15 @@ export default function VerificationPage() {
     adminStorage.updateApplication(appId, {
       status: verified ? 'verified' : 'rejected',
       verifiedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     });
     
-    setApplications(applications.filter((app) => app.id !== appId));
+    // Refresh applications list
+    const apps = adminStorage.getApplications();
+    const pending = apps.filter((app: any) => 
+      app.status === 'under_verification' || app.status === 'paid'
+    );
+    setApplications(pending);
   };
 
   return (
@@ -78,24 +88,42 @@ export default function VerificationPage() {
                   </Button>
                 </div>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-4">
                 <div>
                   <p style={{ color: '#4B5563' }}>Category</p>
                   <p className="font-semibold">{app.category || 'N/A'}</p>
                 </div>
                 <div>
-                  <p style={{ color: '#4B5563' }}>Income</p>
-                  <p className="font-semibold">₹{app.annualIncome || 'N/A'}</p>
+                  <p style={{ color: '#4B5563' }}>Annual Income</p>
+                  <p className="font-semibold">₹{app.annualIncome?.toLocaleString('en-IN') || 'N/A'}</p>
                 </div>
                 <div>
                   <p style={{ color: '#4B5563' }}>City</p>
                   <p className="font-semibold">{app.city || 'N/A'}</p>
                 </div>
                 <div>
-                  <Link href={`/admin/applications/${app.id}`}>
-                    <Button size="sm" variant="outline">View Details</Button>
-                  </Link>
+                  <p style={{ color: '#4B5563' }}>Status</p>
+                  <p className="font-semibold">{app.status?.replace('_', ' ').toUpperCase() || 'N/A'}</p>
                 </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm mb-4">
+                <div>
+                  <p style={{ color: '#4B5563' }}>Address</p>
+                  <p className="font-semibold">{app.address || 'N/A'}</p>
+                </div>
+                <div>
+                  <p style={{ color: '#4B5563' }}>Aadhaar</p>
+                  <p className="font-semibold">{app.aadhaar || 'N/A'}</p>
+                </div>
+                <div>
+                  <p style={{ color: '#4B5563' }}>Family Members</p>
+                  <p className="font-semibold">{app.familyMembers || 'N/A'}</p>
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <Link href={`/admin/applications/${app.id}`}>
+                  <Button size="sm" variant="outline">View Full Details</Button>
+                </Link>
               </div>
             </div>
           ))
